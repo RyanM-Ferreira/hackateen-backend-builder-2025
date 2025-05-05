@@ -96,7 +96,6 @@ export async function deleteUserPerId(id) {
         if (result === 0) {
             throw "User não encontrado!";
         }
-        console.log(`User deletado com sucesso!`, result);
         return result;
     } catch (error) {
         console.error('Erro ao deletar o user:', error);

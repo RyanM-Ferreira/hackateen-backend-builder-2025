@@ -68,6 +68,9 @@ export async function createPost(post) {
 export async function readPosts() {
     try {
         const result = await Posts.findAll();
+        if (result.length === 0) {
+            throw "Nenhum Post encontrado!";
+        }
         console.log(`Posts consultados com sucesso!`, result);
         return result;
     } catch (error) {
@@ -93,6 +96,9 @@ export async function readPostsPerId(id) {
 export async function updatePostPerId(id, dataPost) {
     try {
         const result = await Posts.findByPk(id);
+        if (result === null) {
+            throw "Post não encontrado!";
+        }
         if (result) {
             for (const key in dataPost) {
                 if (Object.hasOwn(result.dataValues, key)) {

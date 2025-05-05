@@ -16,7 +16,7 @@ postsRoute.post('/posts', async (req, res) => {
                     mensagem: `Todos os campos obrigatorios devem ser preenchidos `,
                 },
             };
-            return res.send(response);
+            throw response;
         }
 
         if (!posts?.title) {
@@ -26,7 +26,7 @@ postsRoute.post('/posts', async (req, res) => {
                 },
             };
 
-            return res.send(response);
+            throw response;;
         }
 
         if (!posts?.type) {
@@ -36,7 +36,7 @@ postsRoute.post('/posts', async (req, res) => {
                 },
             };
 
-            return res.send(response);
+            throw response;;
         }
 
         if (!posts?.content) {
@@ -46,7 +46,7 @@ postsRoute.post('/posts', async (req, res) => {
                 },
             };
 
-            return res.send(response);
+            throw response;
         }
 
 
@@ -77,7 +77,6 @@ postsRoute.patch('/posts/:id', async (req, res) => {
 
     res.statusCode = 400;
 
-
     if (!posts?.title && !posts.type && !posts.content) {
         const response = {
             erro: {
@@ -100,7 +99,7 @@ postsRoute.patch('/posts/:id', async (req, res) => {
     } catch (error) {
         console.error('Erro ao Atualizar o post:', error);
 
-        res.statusCode = 500;
+        res.statusCode = 404;
         const response = {
             erro: {
                 mensagem: `Erro ao atualizar o post ${id}`
@@ -115,15 +114,12 @@ postsRoute.delete('/posts/:id', async (req, res) => {
     const id = req.params.id;
 
     try {
-        const found = await deletePostPerId(id);
+        await deletePostPerId(id);
 
         res.statusCode = 202;
 
-        if (!found) {
-            res.statusCode = 404;
-        }
         const response = {
-            erro: {
+            response: {
                 mensagem: `Post ${id} removido com sucesso!`,
             }
         };
@@ -151,13 +147,9 @@ postsRoute.get('/posts/:id', async (req, res) => {
 
         res.statusCode = 200;
 
-        if (!response) {
-            res.statusCode = 404;
-        }
-
         return res.send(response);
     } catch (error) {
-        res.statusCode = 500;
+        res.statusCode = 404;
         const response = {
             erro: {
                 mensagem: `Erro ao buscar o post ${id}, ${error}`
@@ -176,9 +168,7 @@ postsRoute.get('/posts', async (req, res) => {
         return res.send(response);
 
     } catch (error) {
-        console.error('Erro ao buscar os posts:', error);
-
-        res.statusCode = 500;
+        res.statusCode = 404;
         const response = {
             erro: {
                 mensagem: `Erro ao buscar os posts`
