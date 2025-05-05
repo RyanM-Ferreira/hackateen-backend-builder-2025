@@ -1,3 +1,5 @@
+import { authMiddleware } from './../middleware/authMiddleware.js';
+
 import express from 'express';
 import { createPost, readPosts, readPostsPerId, updatePostPerId, deletePostPerId } from './../models/posts.js';
 
@@ -5,7 +7,7 @@ import { createPost, readPosts, readPostsPerId, updatePostPerId, deletePostPerId
 export const postsRoute = express.Router();
 
 
-postsRoute.post('/posts', async (req, res) => {
+postsRoute.post('/posts', authMiddleware, async (req, res) => {
     const posts = req.body;
 
     res.statusCode = 400;
@@ -71,7 +73,7 @@ postsRoute.post('/posts', async (req, res) => {
     }
 });
 
-postsRoute.patch('/posts/:id', async (req, res) => {
+postsRoute.patch('/posts/:id', authMiddleware, async (req, res) => {
 
     const posts = req.body;
 
@@ -110,7 +112,7 @@ postsRoute.patch('/posts/:id', async (req, res) => {
     };
 });
 
-postsRoute.delete('/posts/:id', async (req, res) => {
+postsRoute.delete('/posts/:id', authMiddleware, async (req, res) => {
     const id = req.params.id;
 
     try {

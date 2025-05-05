@@ -5,14 +5,14 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
+    "start": "cls && node app.js",
+    "install": "cls && npm install sqlite3 && npm install jsonwebtoken && npm install jest",
     "test-global": "cls && jest --detectOpenHandles",
     "start-app": "node -e \"import('./app.js').then(({ App }) => App())\"",
     "test-users": "cls && jest -i tests/users.test.js -t",
     "test-comments": "cls && jest -i tests/comments.test.js -t",
     "test-posts": "cls && jest -i tests/posts.test.js -t"
-
-
-  },
+  },  
   "keywords": [
     "Hackateen"
   ],
@@ -21,6 +21,7 @@
   "dependencies": {
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7"

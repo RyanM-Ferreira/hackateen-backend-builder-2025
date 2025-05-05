@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import { commentsRoute } from './routes/comments.js';
 import { usersRoute } from './routes/users.js';
 import { postsRoute } from './routes/posts.js';
+import { authRoute } from './routes/auth.js';
 
 import { sequelize } from './models/database.js';
 
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(commentsRoute);
 app.use(usersRoute);
 app.use(postsRoute);
+app.use(authRoute);
 
 
 export async function App() {
@@ -27,7 +29,7 @@ export async function App() {
         }
         console.log('Banco de dados conectado com sucesso!');
     });
-    
+
     await sequelize.sync();
 
     const server = app.listen(PORT, () => {
@@ -36,3 +38,4 @@ export async function App() {
     return server;
 }
 
+App();
