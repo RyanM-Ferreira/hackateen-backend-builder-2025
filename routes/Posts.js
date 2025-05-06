@@ -7,6 +7,7 @@ import { createPost, readPosts, readPostsPerId, updatePostPerId, deletePostPerId
 export const postsRoute = express.Router();
 
 
+
 postsRoute.post('/posts', authMiddleware, async (req, res) => {
     const posts = req.body;
 

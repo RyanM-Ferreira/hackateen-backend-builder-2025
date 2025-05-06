@@ -1,9 +1,10 @@
 import express from 'express';
 import { createComment, readComments, readCommentsPerId, updateCommentsPerId, deleteCommentsPerId } from './../models/comments.js';
+import { authMiddleware } from './../middleware/authMiddleware.js';
 
 export const commentsRoute = express.Router();
 
-commentsRoute.post('/comments', async (req, res) => {
+commentsRoute.post('/comments', authMiddleware, async (req, res) => {
     const comment = req.body;
 
     res.statusCode = 400;
@@ -77,7 +78,7 @@ commentsRoute.post('/comments', async (req, res) => {
     }
 });
 
-commentsRoute.patch('/comments/:id', async (req, res) => {
+commentsRoute.patch('/comments/:id', authMiddleware, async (req, res) => {
 
     const comment = req.body;
 
@@ -114,7 +115,7 @@ commentsRoute.patch('/comments/:id', async (req, res) => {
     };
 });
 
-commentsRoute.delete('/comments/:id', async (req, res) => {
+commentsRoute.delete('/comments/:id', authMiddleware, async (req, res) => {
     const id = req.params.id;
 
     try {

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { App, app } from '../app.js';
 import { sequelize } from '../models/database.js';
-
+import { setTokenForTest } from '../routes/auth.js';
 
 let server;
 
@@ -22,20 +22,26 @@ beforeEach(async () => {
 describe('Testes para o endpoint /comments', () => {
 
     it('Deve criar um novo comentário com sucesso', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -47,9 +53,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -65,20 +71,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar criar um novo comentário sem nenhum atributo', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -91,8 +103,10 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
 
+
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
 
             });
@@ -102,20 +116,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar criar um novo comentário sem conteudo', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -127,9 +147,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 date: '2023-10-01',
                 userId: userResponse.body.userId,
@@ -141,20 +161,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar criar um novo comentário sem data', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -166,9 +192,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 userId: userResponse.body.userId,
@@ -180,20 +206,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar criar um novo comentário sem o id do post', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -205,9 +237,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -219,20 +251,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar criar um novo comentário sem o id do user', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -245,8 +283,10 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
 
+
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -258,20 +298,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar um comentário especificio por meio de id', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -284,8 +330,10 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
 
+
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -317,20 +365,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar todos os comentários', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -342,9 +396,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -377,20 +431,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve atualizar o comentário com sucesso', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -402,9 +462,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -420,6 +480,7 @@ describe('Testes para o endpoint /comments', () => {
 
         const commentpatch = await request(app)
             .patch(`/comments/` + commentResponse.body.commentId)
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é o comentário atualizado',
                 date: '2023-10-02',
@@ -435,20 +496,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar atualizar um comentário, porém o não é enviado nenhum atributo', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -460,9 +527,9 @@ describe('Testes para o endpoint /comments', () => {
         expect(postResponse.body).toHaveProperty('postId');
         expect(postResponse.body.userId).toEqual(userResponse.body.userId);
 
-
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -478,6 +545,7 @@ describe('Testes para o endpoint /comments', () => {
 
         const commentpatch = await request(app)
             .patch(`/comments/` + commentResponse.body.commentId)
+            .set('Authorization', `Bearer ${token}`)
             .send({});
 
         expect(commentpatch.statusCode).toBe(400);
@@ -485,8 +553,40 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar atualizar um comentário, porém o comentário não existe', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
+        const userResponse = await request(app)
+            .post('/users')
+            .send(user);
+
+        expect(userResponse.statusCode).toBe(201);
+        expect(userResponse.body).toHaveProperty('userId');
+        expect(userResponse.body.name).toBe('João');
+
+        const token = await setTokenForTest(user);
+
+
+        const postResponse = await request(app)
+            .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                title: 'Título do post',
+                type: 'event',
+                content: 'Conteúdo do post',
+                userId: userResponse.body.userId
+            });
+
+        expect(postResponse.statusCode).toBe(201);
+        expect(postResponse.body).toHaveProperty('postId');
+        expect(postResponse.body.userId).toEqual(userResponse.body.userId);
+
         const commentResponse = await request(app)
             .patch('/comments/1')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é o comentário atualizado',
                 date: '2023-10-02'
@@ -497,20 +597,26 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve deletar o comentário com sucesso', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
         const userResponse = await request(app)
             .post('/users')
-            .send({
-                name: 'João',
-                email: 'João@exemplo.com',
-                password: '123456'
-            });
+            .send(user);
 
         expect(userResponse.statusCode).toBe(201);
         expect(userResponse.body).toHaveProperty('userId');
         expect(userResponse.body.name).toBe('João');
 
+        const token = await setTokenForTest(user);
+
+
         const postResponse = await request(app)
             .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 title: 'Título do post',
                 type: 'event',
@@ -525,6 +631,7 @@ describe('Testes para o endpoint /comments', () => {
 
         const commentResponse = await request(app)
             .post('/comments')
+            .set('Authorization', `Bearer ${token}`)
             .send({
                 content: 'Este é um comentário',
                 date: '2023-10-01',
@@ -540,6 +647,7 @@ describe('Testes para o endpoint /comments', () => {
 
         const commentdelete = await request(app)
             .delete(`/comments/` + commentResponse.body.commentId)
+            .set('Authorization', `Bearer ${token}`)
             .send();
 
         expect(commentdelete.statusCode).toBe(202);
@@ -548,8 +656,40 @@ describe('Testes para o endpoint /comments', () => {
     });
 
     it('Deve retornar erro ao tentar deletar um comentário, porém o comentário não existe', async () => {
+        const user = {
+            name: 'João',
+            email: 'João@exemplo.com',
+            password: '123456'
+        }
+
+        const userResponse = await request(app)
+            .post('/users')
+            .send(user);
+
+        expect(userResponse.statusCode).toBe(201);
+        expect(userResponse.body).toHaveProperty('userId');
+        expect(userResponse.body.name).toBe('João');
+
+        const token = await setTokenForTest(user);
+
+
+        const postResponse = await request(app)
+            .post('/posts')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                title: 'Título do post',
+                type: 'event',
+                content: 'Conteúdo do post',
+                userId: userResponse.body.userId
+            });
+
+        expect(postResponse.statusCode).toBe(201);
+        expect(postResponse.body).toHaveProperty('postId');
+        expect(postResponse.body.userId).toEqual(userResponse.body.userId);
+        
         const commentResponse = await request(app)
             .delete('/comments/1')
+            .set('Authorization', `Bearer ${token}`)
             .send();
 
         expect(commentResponse.statusCode).toBe(500);
