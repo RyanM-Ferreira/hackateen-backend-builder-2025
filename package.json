@@ -5,13 +5,12 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "cls && node app.js",
+    "start": "node app.js",
     "start:dev": "nodemon",
-    "install": "cls && npm install sqlite3 jsonwebtoken jest swagger-jsdoc swagger-ui-express",
-    "test-global": "cls && jest --detectOpenHandles",
-    "test-users": "cls && jest -i tests/users.test.js -t",
-    "test-comments": "cls && jest -i tests/comments.test.js -t",
-    "test-posts": "cls && jest -i tests/posts.test.js -t"
+    "test-global": "jest --detectOpenHandles",
+    "test-users": "jest -i tests/users.test.js -t",
+    "test-comments": "jest -i tests/comments.test.js -t",
+    "test-posts": "jest -i tests/posts.test.js -t"
   },
   "keywords": [
     "backend-builder, hackateen"
