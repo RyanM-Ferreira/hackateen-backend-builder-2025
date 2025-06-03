@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const KEY = 'hackateen_key';
+const KEY = process.env.JWT_SECRET;
 
 export function authMiddleware(req, res, next) {
     const authHeader = req.headers['authorization'];

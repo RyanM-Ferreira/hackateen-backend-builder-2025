@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/users.js';
 import request from 'supertest';
 
-const SECRET = 'hackateen_key';
+const SECRET = process.env.JWT_SECRET;
 
 export const authRoute = express.Router();
 
