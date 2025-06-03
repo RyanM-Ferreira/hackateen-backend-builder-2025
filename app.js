@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 const PORT = 3000;
 
 import sqlite3 from 'sqlite3';
