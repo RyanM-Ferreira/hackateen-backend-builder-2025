@@ -1,8 +1,4 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const PORT = 3000;
 
@@ -25,12 +21,7 @@ app.use(usersRoute);
 app.use(postsRoute);
 app.use(authRoute);
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'siginup.html'));
-});
-
+app.use('/static', express.static('public'));
 
 import { swaggerSpec, swaggerUi } from './swagger.js';
 
