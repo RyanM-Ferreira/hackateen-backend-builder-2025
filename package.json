@@ -21,6 +21,7 @@
     "body-parser": "^2.2.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "pg": "^8.16.0",
     "sequelize": "^6.37.7",
     "sqlite3": "^5.1.7",
     "swagger-jsdoc": "^6.2.8",

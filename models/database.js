@@ -1,5 +1,4 @@
-import Sequelize from 'sequelize';
-
+// models/database.js
 import { Sequelize } from 'sequelize';
 
 export const sequelize = new Sequelize({
@@ -15,9 +14,16 @@ export const sequelize = new Sequelize({
       rejectUnauthorized: false,
     }
   },
-  logging: false, e
+  logging: false
 });
 
-sequelize.authenticate();
+(async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Conectado com sucesso ao PostgreSQL!');
+  } catch (err) {
+    console.error('Erro ao conectar:', err);
+  }
+})();
 
 export default sequelize;
