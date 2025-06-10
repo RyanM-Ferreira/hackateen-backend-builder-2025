@@ -27,13 +27,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // ...existing code...
 
 export async function App() {
-    const db = new sqlite3.Database('./database/database.sqlite', (erro) => {
-        if (erro) {
-            console.error('Erro ao inicializar o banco de dados:', erro);
-            return;
-        }
-        console.log('Banco de dados conectado com sucesso!');
-    });
+    // const db = new sqlite3.Database('./database/database.sqlite', (erro) => {
+    //     if (erro) {
+    //         console.error('Erro ao inicializar o banco de dados:', erro);
+    //         return;
+    //     }
+    //     console.log('Banco de dados conectado com sucesso!');
+    // });
 
     await sequelize.sync();
 

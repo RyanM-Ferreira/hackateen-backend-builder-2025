@@ -1,3 +1,5 @@
+// Custava usar função?
+
 import request from 'supertest';
 import { App, app } from '../app.js';
 import { sequelize } from '../models/database.js';
