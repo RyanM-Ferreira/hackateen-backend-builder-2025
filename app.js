@@ -20,21 +20,12 @@ app.use(usersRoute);
 app.use(postsRoute);
 app.use(authRoute);
 
-// ...existing code...
+
 import { swaggerSpec, swaggerUi } from './swagger.js';
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// ...existing code...
 
 export async function App() {
-    // const db = new sqlite3.Database('./database/database.sqlite', (erro) => {
-    //     if (erro) {
-    //         console.error('Erro ao inicializar o banco de dados:', erro);
-    //         return;
-    //     }
-    //     console.log('Banco de dados conectado com sucesso!');
-    // });
-
     await sequelize.sync();
 
     const server = app.listen(PORT, () => {
