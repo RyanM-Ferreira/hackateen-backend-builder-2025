@@ -1,6 +1,11 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const PORT = 3000;
 
-import sqlite3 from 'sqlite3';
 import express from 'express';
 import bodyParser from 'body-parser';
 
@@ -19,6 +24,12 @@ app.use(commentsRoute);
 app.use(usersRoute);
 app.use(postsRoute);
 app.use(authRoute);
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'siginup.html'));
+});
 
 
 import { swaggerSpec, swaggerUi } from './swagger.js';
