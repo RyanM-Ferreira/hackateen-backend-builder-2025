@@ -83,4 +83,4 @@ npm run test-posts
 - **swagger.js**: Arquivo responsável pela configuração e geração da documentação da API usando Swagger.
 
 ## Considerações Finais
-Este projeto foi desenvolvido como parte do Hackateen, com o objetivo de criar uma plataforma simples e eficiente para melhorar a comunicação nas comunidades locais. Ao escolher as tecnologias, buscamos garantir a facilidade de uso, segurança e flexibilidade, permitindo que o sistema cresça conforme as necessidades da comunidade.
+Este projeto foi desenvolvido como parte do Hackateen, com o objetivo de criar uma plataforma simples e eficiente para melhorar a comunicação nas comunidades locais.
